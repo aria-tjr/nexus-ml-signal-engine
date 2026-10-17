@@ -253,14 +253,16 @@ class NexusPredictor:
             disagree_p = float(p_long)
 
         # Agreement
-        if agree_p >= 0.65:
+        weak = config.ML_MIN_CONFIDENCE
+        strong = weak + 0.10
+        if agree_p >= strong:
             return 10.0
-        elif agree_p >= 0.55:
+        elif agree_p >= weak:
             return 5.0
         # Disagreement
-        elif disagree_p >= 0.65:
+        elif disagree_p >= strong:
             return -10.0
-        elif disagree_p >= 0.55:
+        elif disagree_p >= weak:
             return -5.0
         # Neutral / undecided
         else:

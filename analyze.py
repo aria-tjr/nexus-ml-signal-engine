@@ -206,8 +206,14 @@ async def analyze(
                 nexus.total, nexus.grade, nexus.direction, nexus.leverage)
 
     # ── 6. Format and print ───────────────────────────────
+    # MIN_SCORE was previously not enforced (grade "C" 40-54 still produced a signal)
+    if nexus.direction != "SKIP" and nexus.total < config.MIN_SCORE:
+        nexus.direction = "SKIP"
+    if (nexus.direction != "SKIP" and config.REQUIRE_FULL_TF_ALIGNMENT
+            and l2.aligned_count < len(candles_by_tf)):
+        nexus.direction = "SKIP"
     if nexus.grade == "SKIP" or nexus.direction == "SKIP":
-        reason = f"Score {nexus.total:.0f} below threshold ({config.MIN_SCORE})"
+        reason = f"Score {nexus.total:.0f} below threshold ({config.MIN_SCORE}) or filtered"
         formatted = signal_formatter.format_skip(symbol, timeframe, nexus, reason)
     else:
         formatted = signal_formatter.format_signal(

@@ -275,6 +275,10 @@ def extract(
     if layer_results and "l5" in layer_results and layer_results["l5"] is not None:
         l5 = layer_results["l5"]
         vwap_raw = l5.details.get("vwap", c)
+        # layer5 stores vwap as {"value": ..., "upper_band": ..., ...}
+        if isinstance(vwap_raw, dict):
+            vwap_raw = vwap_raw.get("value", c)
+        vwap_raw = _safe(vwap_raw, c)
         if vwap_raw and vwap_raw > 0:
             vwap = vwap_raw
     vwap_ratio = _clip(c / vwap - 1.0, -0.05, 0.05) / 0.05
