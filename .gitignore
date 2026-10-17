@@ -1,3 +1,6 @@
 **/__pycache__/
 *.pyc
 *.pyo
+.bt_data/
+backtest_run.log
+backtest_results.json

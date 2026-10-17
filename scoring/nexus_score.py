@@ -243,14 +243,14 @@ def compute(
             pass
 
     if direction == "LONG":
-        stop_loss = entry_price - 1.5 * atr
+        stop_loss = entry_price - config.SL_ATR_MULT * atr
         tp1 = entry_price + 1.5 * atr
-        tp2 = entry_price + 3.0 * atr
+        tp2 = entry_price + config.TP_ATR_MULT * atr
         tp3 = entry_price + 4.5 * atr
     else:
-        stop_loss = entry_price + 1.5 * atr
+        stop_loss = entry_price + config.SL_ATR_MULT * atr
         tp1 = entry_price - 1.5 * atr
-        tp2 = entry_price - 3.0 * atr
+        tp2 = entry_price - config.TP_ATR_MULT * atr
         tp3 = entry_price - 4.5 * atr
 
     sl_distance = abs(entry_price - stop_loss)

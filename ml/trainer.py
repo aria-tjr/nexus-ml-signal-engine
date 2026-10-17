@@ -169,7 +169,7 @@ def build_feature_matrix(
     idxs   = []
 
     for i in range(min_history, n - FORWARD_BARS):
-        feat = extract(candles[: i + 1])
+        feat = extract(candles[max(0, i + 1 - config.ML_FEATURE_WINDOW): i + 1])
         rows.append(feat)
         idxs.append(i)
 
@@ -201,7 +201,7 @@ def build_sequence_matrix(
     rows = []
     idxs = []
     for i in range(start, n - FORWARD_BARS):
-        seq = extract_sequence(candles[: i + 1], seq_len=seq_len)
+        seq = extract_sequence(candles[max(0, i + 1 - config.ML_FEATURE_WINDOW): i + 1], seq_len=seq_len)
         rows.append(seq)
         idxs.append(i)
 

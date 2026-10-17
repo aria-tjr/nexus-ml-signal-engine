@@ -19,6 +19,8 @@ operates as normal.
 from __future__ import annotations
 
 import logging
+
+import config
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 
@@ -99,7 +101,9 @@ def analyze(
     try:
         result = predictor.predict(
             candles,
-            layer_results=layer_results,
+            # Training (ml/trainer.py) only sees candles, so by default inference must too,
+            # otherwise the models get feature values they were never trained on.
+            layer_results=layer_results if getattr(config, "ML_USE_LAYER_FEATURES", False) else None,
             direction_hint=direction_hint,
         )
     except Exception as exc:

@@ -15,7 +15,7 @@ LEVERAGE_MAP = [
     (70, 84, 100),    # score 70-84 -> 100x
     (55, 69, 50),     # score 55-69 -> 50x
 ]
-MIN_SCORE = 55
+MIN_SCORE = 65
 
 # Scanner
 SCANNER_SYMBOLS = ["BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "XRPUSDT",
@@ -59,3 +59,14 @@ LSTM_SEQ_LEN = 50
 # ML score caps: how much L7 can boost or penalize the base NEXUS score
 ML_MAX_BOOST   =  10.0   # maximum positive delta
 ML_MAX_PENALTY = -10.0   # maximum negative delta
+
+# ── Trade filters / exits (chosen on tuning window Dec-2025..Mar-2026, see BACKTEST.md) ──
+REQUIRE_FULL_TF_ALIGNMENT = True    # require L2 trend aligned on all of 4h/1h/15m
+SIGNAL_COOLDOWN_BARS = 0            # bars to wait after a trade closes (scanner/backtest)
+SL_ATR_MULT = 2.0
+TP_ATR_MULT = 4.5                   # take_profit_2 distance
+MAX_HOLD_BARS = 192
+
+# ML features: candle-only by default so inference matches ml/trainer.py
+ML_USE_LAYER_FEATURES = False
+ML_FEATURE_WINDOW = 250             # bars per feature extraction (= live fetch size)
